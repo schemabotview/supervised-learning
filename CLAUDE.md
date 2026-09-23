@@ -6,11 +6,11 @@ this repo's.
 
 ## Status
 
-**COURSE 1 OF 7 AUTHORED (2026-09-23)** — `foundations`, **10 sections · 10 scenes**. All seven
-courses are declared in `src/content/index.ts` so the arc is visible in the app from day one; the
-other six are empty and fill in as each slice is authored. `npm run build`, `tsc --noEmit` and
-`npm run check` are clean, and **every one of the ten sections has been reviewed as a rendered frame
-at 1920×1080** before being called done.
+**COURSES 1-2 OF 7 AUTHORED (2026-09-23)** — `foundations` and `regression`, **20 sections · 20
+scenes**. All seven courses are declared in `src/content/index.ts` so the arc is visible in the app
+from day one; the other five are empty and fill in as each slice is authored. `npm run build`, `tsc --noEmit` and
+`npm run check` are clean, and **every one of the twenty sections has been reviewed as a rendered
+frame at 1920×1080** before being called done.
 
 **Live at `graphl.in/supervised-learning/`** — repo `schemabotview/supervised-learning` (a free
 name; no quarry collision, unlike `deep-learning`), deployed by `.github/workflows/deploy.yml` on
@@ -62,7 +62,7 @@ ride `kind: 'plot'` rather than a diagram. `kind: 'code'` carries the NumPy/scik
 | # | id | Title | Secs | State |
 |--:|----|-------|-----:|-------|
 | 1 | `foundations` | What Machine Learning Is | 10 | **authored ✓** |
-| 2 | `regression` | Regression and Gradient Descent | 10 | declared |
+| 2 | `regression` | Regression and Gradient Descent | 10 | **authored ✓** |
 | 3 | `multiple-features` | Many Features at Once | 9 | declared |
 | 4 | `classification` | Classification | 10 | declared |
 | 5 | `generalization` | Overfitting, Bias and Variance | 9 | declared |
@@ -91,6 +91,19 @@ to all three checks.
   then decayed back to the true line in between, so the memorised model was very nearly right
   everywhere, and the frame argued the opposite of the slide. It built clean and passed every guard.
   The construction in that scene now puts the held-out points where the curve is genuinely worst.
+- **Check every number you narrate.** `regression` shipped a first cut whose §06 used α = 0.32 and
+  narrated it converging in eight steps. This cost has curvature `mean(x²) = 7.69`, so it diverges
+  above α ≈ 0.26 — 0.32 oscillates out to |w| > 40. It *looked* fine because the diverging points
+  left the window and were clipped, leaving a plausible cluster near the minimum. Quantities in a
+  scene are claims; compute them.
+- **A contour must close inside its window.** Levels are chosen against the drawn frame, not by
+  taste: the first cut of §05 ran out to J = 0.125, whose ring reaches b ≈ 2.24, so the outer rings
+  were sliced off and the figure showed open arcs under a caption promising nested loops.
+- **The slide must not repeat the scene.** §10 first carried the same comparison table in both
+  halves of the frame, which spends the slide on nothing. The slide argues; the scene shows.
+- **Re-read the prose after moving a panel.** Stacking §03 and §09 turned every "on the left" and
+  "right-hand plot" in their slides and narration into a wrong direction. The frame changed; the
+  words did not follow on their own.
 - **Plot colours come from the engine ramp**, not from taste: green↔orange is the pair that collapses
   under protanopia, so they are never adjacent slots. Series carry **direct labels**, never a legend.
 
