@@ -6,11 +6,11 @@ this repo's.
 
 ## Status
 
-**COURSES 1-5 OF 7 AUTHORED (2026-09-23)** — `foundations`, `regression`, `multiple-features`,
-`classification` and `generalization`, **48 sections · 48 scenes**. All seven courses are declared in
-`src/content/index.ts` so the arc is visible in the app from day one; the other two are empty and fill in as each
-slice is authored. `npm run build`, `tsc --noEmit` and `npm run check` are clean, and **every one of the forty-eight
-sections has been reviewed as a rendered frame** before being called done.
+**COURSES 1-6 OF 7 AUTHORED (2026-09-23)** — `foundations`, `regression`, `multiple-features`,
+`classification`, `generalization` and `ml-in-practice`, **58 sections · 58 scenes**. All seven courses are
+declared in `src/content/index.ts` so the arc is visible in the app from day one; `trees` is empty and fills in
+when its slice is authored. `npm run build`, `tsc --noEmit` and `npm run check` are clean, and **every one of the
+fifty-eight sections has been reviewed as a rendered frame** before being called done.
 
 **Live at `graphl.in/supervised-learning/`** — repo `schemabotview/supervised-learning` (a free
 name; no quarry collision, unlike `deep-learning`), deployed by `.github/workflows/deploy.yml` on
@@ -66,7 +66,7 @@ ride `kind: 'plot'` rather than a diagram. `kind: 'code'` carries the NumPy/scik
 | 3 | `multiple-features` | Many Features at Once | 9 | **authored ✓** |
 | 4 | `classification` | Classification | 10 | **authored ✓** |
 | 5 | `generalization` | Overfitting, Bias and Variance | 9 | **authored ✓** |
-| 6 | `ml-in-practice` | Making a Model Better | 10 | declared |
+| 6 | `ml-in-practice` | Making a Model Better | 10 | **authored ✓** |
 | 7 | `trees` | Decision Trees and Ensembles | 10 | declared |
 
 Section-by-section detail: `COURSE-PLAN.md`.
@@ -143,6 +143,19 @@ to all three checks.
 - **Slice a learning curve's subsets across the range, never off the front.** Taking the first m
   rows of an x-sorted table trains only on small houses and then scores against large ones, so the
   curve measures extrapolation. That bug produced a J_cv of 32,601 and looked like a solver fault.
+- **A 2-line label over a 2-line sub is past the leaf card's real ceiling, and `check` passes it.**
+  `ml-in-practice` §01 shipped `Change one thing` / `so you know what did it` — modelled at 76px
+  against a 92px budget, and the last sub line was cut off by the card border on screen. Treat
+  "label wraps AND sub wraps" as the warning sign and shorten one of them; three wrapped lines total
+  is comfortable, four is not.
+- **Round to the precision the argument needs, not to the house default.** §07's cheat table used
+  `toFixed(2)` throughout, which printed the always-fraud classifier's precision of 0.005 as `0.01`
+  — contradicting the narration and making a catastrophic number look merely poor — and collapsed
+  99.500% / 99.505% / 99.645% into two indistinguishable cells. Where a digit IS the point, print it.
+- **A direct label placed near a crossing lands on the wrong curve.** §08's `precision` and `recall`
+  labels were offset from the midpoint of their own curves, which is exactly where the two cross;
+  both rendered on top of a line. Place each label on the side of the frame where its curve is the
+  only thing present.
 
 ## Authoring notes
 
@@ -155,6 +168,17 @@ to all three checks.
   Scattered data is generated from a **fixed seed** — never `Math.random` — because a scene must
   render identically on every capture, or the 4K shoot will not match the screenshot it was reviewed
   from.
+- `src/scenes/ml-in-practice/_data.ts` is that course's whole worked dataset: 20,000 simulated card
+  transactions, 100 of them fraudulent, scored by three successive model versions. It is simulated
+  rather than drawn because §06-08 need the skew to be REAL — at 0.5% prevalence `return 0` scores
+  99.500% against the model's 99.645%, and that gap is the section. Three things in the generator
+  are load-bearing rather than decorative: the three score columns (so §01's iteration table is
+  measured, not narrated), the five fraud TYPES with different detectability (so §03's miss tally
+  points somewhere and §04's ceiling arithmetic is real), and a signal shift applied to segment B's
+  LEGITIMATE rows only (so §10's 4.9x disparity in false-alarm rate is produced by the data rather
+  than asserted — and recall stays comparable across segments, which is what makes the point that an
+  audit on recall passes). Seed 42, chosen by search against those targets; changing it re-rolls
+  every number in six sections at once.
 - `scripts/check-content.mjs` here differs from the sibling repos' copies by one line: the
   content-sized node kinds it skips are `code|table|memory|plot`, not `code|table`. A plot's
   `label`/`sub` are its caption block, which `plotMetrics` reserves height for, so the fixed leaf-card

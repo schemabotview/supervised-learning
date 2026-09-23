@@ -3,7 +3,7 @@
 The full section plot for the seven-course spine. `CLAUDE.md` is the operational summary; this is
 the detail.
 
-**68 sections.** Courses 1–5 (48 sections) are the shippable prefix.
+**68 sections.** Courses 1–6 (58 sections) are authored; `trees` is the remaining slice.
 
 Three decisions, taken before a line was authored, run through every course below:
 
@@ -35,7 +35,7 @@ Three decisions, taken before a line was authored, run through every course belo
 9. `the-only-score` — zero training error proves nothing; the held-out split, stated before it is needed
 10. `the-toolkit` — `fit` / `predict` / `score`, and the map of the six courses ahead
 
-## 02 · `regression` — Regression and Gradient Descent (10)
+## 02 · `regression` — Regression and Gradient Descent (10) ✅ authored
 
 1. `the-line` — f(x) = wx + b against real data; reading a prediction off it
 2. `what-wrong-means` — the residual, and why the squared one is the one that gets used
@@ -48,7 +48,7 @@ Three decisions, taken before a line was authored, run through every course belo
 9. `running-it` — the descent path drawn on the contours, and what convergence looks like
 10. `normal-equation` — the closed form, why it exists for this model only, and when to prefer it
 
-## 03 · `multiple-features` — Many Features at Once (9)
+## 03 · `multiple-features` — Many Features at Once (9) ✅ authored
 
 1. `more-columns` — from one feature to n; the model as a sum, then as a dot product
 2. `vectorization` — the same arithmetic, one NumPy line; why it is faster, not just shorter
@@ -85,7 +85,7 @@ Three decisions, taken before a line was authored, run through every course belo
 8. `choosing-lambda` — the validation sweep, and the U-shaped curve it produces
 9. `the-diagnosis-table` — high bias or high variance, and the fix that follows from each
 
-## 06 · `ml-in-practice` — Making a Model Better (10)
+## 06 · `ml-in-practice` — Making a Model Better (10) ✅ authored
 
 1. `the-iterative-loop` — choose → train → diagnose → change; the cycle a project actually runs
 2. `deciding-what-to-try` — the menu of six fixes, and which diagnosis licenses which
