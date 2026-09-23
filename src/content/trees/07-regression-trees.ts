@@ -1,0 +1,23 @@
+import type { Section } from '../types'
+
+export const regressionTrees: Section = {
+  id: 'regression-trees',
+  title: 'Regression trees',
+  scene: 'regression-trees',
+  slide: `## Same search, same stopping rules, one different line
+
+Entropy asked *how mixed are these labels.* Variance asks *how spread out are these numbers.* Both are zero when the rows agree.
+
+### A leaf predicts the mean
+So the model is a **staircase**. It cannot draw a slope — only a wider or a narrower box. More depth makes the steps narrower, never smoother.
+
+### The impurity changes which column wins
+Late-or-not picks **departs before 13:48**. Minutes-late picks **was the inbound leg late** — a variance drop of 82.7 against 63.6.
+
+Same 999 flights. Same six columns. Asking a slightly different question moves the root.
+
+### The staircase is honest about its edges
+The first step covers 41 flights and sits *above* the one after it. That is §05 happening to a number instead of an accuracy.`,
+  narration:
+    "Everything so far has been classification: late or not late. Regression trees predict a number, and the striking thing — genuinely the point of this section — is how little changes. Go back to the algorithm from section two. For every column, for every threshold, split the rows, score the two halves, keep the best. That loop is untouched. Then section three gave us the scoring: entropy, which asks how mixed the labels in a node are. Swap that one function for variance, which asks how spread out the numbers in a node are, and you have a regression tree. That is the whole modification. Both functions have the property that matters: they are zero when every row in the node agrees, and large when they disagree. Entropy is zero when all the flights are late or all are on time; variance is zero when every flight in the node has exactly the same delay. And a leaf, instead of predicting the majority class, predicts the mean of its rows. Now look at the plot, because this is the thing worth having in your head about regression trees forever after. That orange line is a real regression tree fitted to departure hour, predicting minutes of delay. And it is a staircase. Flat, flat, jump, flat, jump. Eight leaves, so eight steps. It cannot do anything else. A leaf predicts one number for everything that falls in it, so the prediction is constant across the whole width of that leaf and then discontinuous at the boundary. A tree cannot draw a slope. The underlying reality here is close to a smooth ramp — delay builds through the afternoon — and the tree approximates it with steps, which is what it will always do. And the fix people reach for, more depth, does not make it smoother. It makes the steps narrower. You never get a slope; you get a finer staircase. That is a real limitation, and it is the single biggest reason people reach for a linear model when they believe the relationship is genuinely smooth and extrapolating matters. And notice the first step, on the left, marked in red. It covers forty-one flights in the six o'clock hour, and it sits above the step that follows it — as if very early flights are worse than mid-morning ones. They are not. That is forty-one flights of noise, and the tree has faithfully built a step for it. That is section five happening in front of you, except that this time it is happening to a number rather than to an accuracy, and it is much easier to see. The same thing is going on at the right-hand edge, where the last step drops on twenty-seven flights. Now the table, which holds the genuinely surprising result. The same nine hundred and ninety-nine flights, the same six columns, the same greedy search. When the question is late-or-not, the root split is departure time, before thirteen forty-eight. When the question is how many minutes, the root split is whether the inbound aircraft was late — a variance drop of eighty-two point seven, against sixty-three point six for departure time. The two criteria disagree about where to start. And that is not a defect, it is information: a late inbound aircraft adds a big, consistent number of minutes, which variance rewards heavily. Time of day is better at pushing flights over the fifteen-minute line, which is what entropy on that label rewards. They are different questions and they have different answers, and if you have ever wondered whether to model a threshold or the underlying quantity — this is the frame that says it matters. In scikit-learn the two are DecisionTreeClassifier and DecisionTreeRegressor, and everything else about them, every hyperparameter, every stopping rule from section five, is identical.",
+}

@@ -6,11 +6,13 @@ this repo's.
 
 ## Status
 
-**COURSES 1-6 OF 7 AUTHORED (2026-09-23)** — `foundations`, `regression`, `multiple-features`,
-`classification`, `generalization` and `ml-in-practice`, **58 sections · 58 scenes**. All seven courses are
-declared in `src/content/index.ts` so the arc is visible in the app from day one; `trees` is empty and fills in
-when its slice is authored. `npm run build`, `tsc --noEmit` and `npm run check` are clean, and **every one of the
-fifty-eight sections has been reviewed as a rendered frame** before being called done.
+**ALL SEVEN COURSES AUTHORED (2026-09-23)** — `foundations`, `regression`, `multiple-features`,
+`classification`, `generalization`, `ml-in-practice` and `trees`: **68 sections · 68 scenes**, the whole spine
+declared in COURSE-PLAN.md. `npm run build`, `tsc --noEmit` and `npm run check` are clean, and **every one of the
+sixty-eight sections has been reviewed as a rendered frame** before being called done.
+
+The content is complete; what is outstanding is **audio** (no wavs anywhere yet) and the **catalog entry** in
+`../ui-graphl`, which is now worth adding.
 
 **Live at `graphl.in/supervised-learning/`** — repo `schemabotview/supervised-learning` (a free
 name; no quarry collision, unlike `deep-learning`), deployed by `.github/workflows/deploy.yml` on
@@ -22,8 +24,9 @@ runs with `enablement: false`. `npm ci` and the build had already passed. Fixed 
 `gh api -X POST repos/<repo>/pages -f build_type=workflow` and re-running; any new concept repo will
 need the same one-off step.
 
-**No catalog entry in `../ui-graphl` yet.** Deliberate: one course of seven is authored, and the
-catalog is the public front page. Add the entry when the repo is worth linking to.
+**No catalog entry in `../ui-graphl` yet.** It was held back while the repo was a prefix — the catalog
+is the public front page. All seven courses are now authored, so the only thing still arguing for holding it
+back is the missing narration.
 
 **Audio: none.** `public/audio/foundations/` is an empty placeholder. Narration text is authored on
 every section; the wavs are a single Colab pass once a course's section order is settled. Nothing is
@@ -67,7 +70,7 @@ ride `kind: 'plot'` rather than a diagram. `kind: 'code'` carries the NumPy/scik
 | 4 | `classification` | Classification | 10 | **authored ✓** |
 | 5 | `generalization` | Overfitting, Bias and Variance | 9 | **authored ✓** |
 | 6 | `ml-in-practice` | Making a Model Better | 10 | **authored ✓** |
-| 7 | `trees` | Decision Trees and Ensembles | 10 | declared |
+| 7 | `trees` | Decision Trees and Ensembles | 10 | **authored ✓** |
 
 Section-by-section detail: `COURSE-PLAN.md`.
 
@@ -156,6 +159,22 @@ to all three checks.
   labels were offset from the midpoint of their own curves, which is exactly where the two cross;
   both rendered on top of a line. Place each label on the side of the frame where its curve is the
   only thing present.
+- **Describe the texture the curve actually has.** `trees` §04 called its information-gain scan
+  "smooth, one broad peak"; the drawn curve is visibly jagged. Measuring the jitter to fix the
+  caption produced a better fact than the original claim — adjacent thresholds differ by 0.0013,
+  which is two and a half times the 0.0005 margin the whole section is about. When a caption and a
+  frame disagree about texture, the measurement is usually more interesting than the adjective.
+- **Never clip a scatter into its window.** `trees` §07 capped delay at 64 minutes to keep the axis
+  tidy, which stacked the three worst flights into a straight line of points along the top edge —
+  a pattern in the data that does not exist. Widen the window instead; three points cost nothing.
+- **Do not mark the literal maximum of a plateau.** `trees` §09's caption says k = 2, 3 and 4 are
+  tied within noise, and a green "best" marker sat on k = 4 — the frame contradicting its own
+  caption. Mark the value you would actually recommend (the √n default) and let the caption carry
+  the tie.
+- **An ensemble's returns flatten, so measure rather than assume the direction.** §08 shipped "and
+  eighty of them do better still"; eight trees and eighty both score 0.814 on this data. The true
+  version — that essentially all the benefit arrives by the eighth tree — is a more useful thing to
+  have said, and it was one table cell away.
 
 ## Authoring notes
 
@@ -179,6 +198,21 @@ to all three checks.
   than asserted — and recall stays comparable across segments, which is what makes the point that an
   audit on recall passes). Seed 42, chosen by search against those targets; changing it re-rolls
   every number in six sections at once.
+- `src/scenes/trees/` carries three modules rather than one, because that course makes numerical
+  claims an author cannot check by eye. `_data.ts` is 1,500 simulated departures holding BOTH targets
+  (`late` and `minutes`) so §07 can show that a regression tree is the same algorithm on the same
+  rows. `_tree.ts` is a real CART implementation — exhaustive greedy search, entropy/Gini/variance,
+  bagging, feature subsampling and gradient boosting — so a scene can ask the tree a question the
+  author did not anticipate. `_models.ts` fits the shared models ONCE; §08, §09 and §10 all compare
+  against "one tree", and growing it per scene would let three frames drift apart.
+  Two things are tuned rather than chosen: an INTERACTION term (without it the best depth-2 tree
+  scores exactly what the best depth-1 tree scores, so §01's four-leaf tree would picture something
+  pointless), and a near-tie at the root (0.1302 against 0.1297) which is what §04, §08 and §09 are
+  all built on. Changing the seed or the effect sizes re-rolls every number in ten sections.
+  ⚠️ `_models.ts` fits 542 trees at module load, which costs **~1.5s before the first paint**. That
+  is deliberate — the alternative is smaller ensembles and noisier numbers on frames that have been
+  reviewed — but it is the reason this course's routes feel slower than the other six, and anything
+  that reduces it must re-verify §08-§10 rather than just the section it touched.
 - `scripts/check-content.mjs` here differs from the sibling repos' copies by one line: the
   content-sized node kinds it skips are `code|table|memory|plot`, not `code|table`. A plot's
   `label`/`sub` are its caption block, which `plotMetrics` reserves height for, so the fixed leaf-card

@@ -3,7 +3,7 @@
 The full section plot for the seven-course spine. `CLAUDE.md` is the operational summary; this is
 the detail.
 
-**68 sections.** Courses 1–6 (58 sections) are authored; `trees` is the remaining slice.
+**68 sections, all authored.** What remains is narration audio and the catalog entry.
 
 Three decisions, taken before a line was authored, run through every course below:
 
@@ -98,7 +98,7 @@ Three decisions, taken before a line was authored, run through every course belo
 9. `the-full-cycle` — scoping, data, modelling, deployment, monitoring, and the loop back
 10. `fairness-and-ethics` — where harm enters, and the checks that catch it before release
 
-## 07 · `trees` — Decision Trees and Ensembles (10)
+## 07 · `trees` — Decision Trees and Ensembles (10) ✅ authored
 
 1. `the-tree-model` — a sequence of questions; reading a prediction off the path
 2. `how-a-split-is-chosen` — the greedy search, one feature and one threshold at a time
