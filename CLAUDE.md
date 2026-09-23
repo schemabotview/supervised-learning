@@ -12,9 +12,18 @@ other six are empty and fill in as each slice is authored. `npm run build`, `tsc
 `npm run check` are clean, and **every one of the ten sections has been reviewed as a rendered frame
 at 1920×1080** before being called done.
 
-**Repo `schemabotview/supervised-learning`** (a free name — no quarry collision), deployed to
-`graphl.in/supervised-learning/` by `.github/workflows/deploy.yml` on push to `main`. There is no
-catalog entry in `../ui-graphl` yet; add one once the first deploy is confirmed green.
+**Live at `graphl.in/supervised-learning/`** — repo `schemabotview/supervised-learning` (a free
+name; no quarry collision, unlike `deep-learning`), deployed by `.github/workflows/deploy.yml` on
+push to `main`. First deploy 2026-09-23, verified against the deployed site rather than the build
+log. The only console noise in production is 404s on the narration wavs, which do not exist yet.
+
+The first run FAILED at `actions/configure-pages@v5` — a new repo has no Pages site, and the action
+runs with `enablement: false`. `npm ci` and the build had already passed. Fixed by
+`gh api -X POST repos/<repo>/pages -f build_type=workflow` and re-running; any new concept repo will
+need the same one-off step.
+
+**No catalog entry in `../ui-graphl` yet.** Deliberate: one course of seven is authored, and the
+catalog is the public front page. Add the entry when the repo is worth linking to.
 
 **Audio: none.** `public/audio/foundations/` is an empty placeholder. Narration text is authored on
 every section; the wavs are a single Colab pass once a course's section order is settled. Nothing is
