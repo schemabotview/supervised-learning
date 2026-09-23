@@ -3,7 +3,7 @@
 The full section plot for the seven-course spine. `CLAUDE.md` is the operational summary; this is
 the detail.
 
-**68 sections.** Courses 1–4 (39 sections) are the shippable prefix.
+**68 sections.** Courses 1–5 (48 sections) are the shippable prefix.
 
 Three decisions, taken before a line was authored, run through every course below:
 
@@ -73,7 +73,7 @@ Three decisions, taken before a line was authored, run through every course belo
 9. `thresholds` — 0.5 is a choice; moving it, and what it trades away
 10. `with-scikit-learn` — `LogisticRegression`, `predict_proba`, and reading the coefficients
 
-## 05 · `generalization` — Overfitting, Bias and Variance (9)
+## 05 · `generalization` — Overfitting, Bias and Variance (9) ✅ authored
 
 1. `underfit-and-overfit` — the same data, three model complexities, side by side
 2. `the-split` — train / validation / test, and what each one is allowed to be used for

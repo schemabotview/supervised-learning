@@ -116,3 +116,86 @@ export function descentPath(
   }
   return out
 }
+
+// ── least-squares polynomials, with a ridge penalty ───────────────────────────────────────────
+// The `generalization` course needs FITTED curves, not drawn ones: its whole argument is that a
+// degree-12 polynomial does something specific and terrible, and a hand-drawn squiggle would be the
+// author asserting that rather than the data showing it. Everything below is closed-form off the
+// data — normal equations, solved directly — so the same figure comes back on every capture.
+
+/** Gaussian elimination with partial pivoting. `A` is square and is not mutated. */
+function solveLinear(A: number[][], b: number[]): number[] {
+  const n = b.length
+  const M = A.map((row, i) => [...row, b[i]])
+  for (let c = 0; c < n; c++) {
+    let p = c
+    for (let i = c + 1; i < n; i++) if (Math.abs(M[i][c]) > Math.abs(M[p][c])) p = i
+    ;[M[c], M[p]] = [M[p], M[c]]
+    const d = M[c][c]
+    for (let i = c + 1; i < n; i++) {
+      const f = M[i][c] / d
+      for (let j = c; j <= n; j++) M[i][j] -= f * M[c][j]
+    }
+  }
+  const out = new Array(n).fill(0)
+  for (let i = n - 1; i >= 0; i--) {
+    let s = M[i][n]
+    for (let j = i + 1; j < n; j++) s -= M[i][j] * out[j]
+    out[i] = s / M[i][i]
+  }
+  return out
+}
+
+/**
+ * A polynomial fit, expressed in a basis of `x` mapped onto [-1, 1] across [`from`, `to`].
+ *
+ * The remap is not cosmetic. A raw Vandermonde in x over [0.4, 4.7] is catastrophically
+ * ill-conditioned by degree 12 — the returned coefficients are then noise, and the "overfitted"
+ * curve in §01 would be a numerical artefact rather than the real least-squares answer it claims to
+ * be. On [-1, 1] the same system solves cleanly in double precision.
+ */
+export interface PolyFit {
+  /** Evaluate the fitted polynomial at a raw (un-remapped) x. */
+  at: (x: number) => number
+  /** Coefficients in the remapped basis, constant term first. */
+  coeffs: number[]
+  /** The largest |coefficient| excluding the intercept — what a ridge penalty actually shrinks. */
+  maxWeight: number
+}
+
+/**
+ * Least-squares fit of a degree-`deg` polynomial, with an optional ridge penalty `lambda` on the
+ * weights. The intercept is never penalised — shrinking it would drag the whole curve toward zero,
+ * which is not what regularization is for and would make §07's "it only shrinks the wiggle" false.
+ */
+export function polyRidge(
+  data: PlotPoint[],
+  deg: number,
+  lambda = 0,
+  from = 0,
+  to = 1,
+): PolyFit {
+  const u = (x: number) => (2 * (x - from)) / (to - from) - 1
+  const k = deg + 1
+  const A = Array.from({ length: k }, () => new Array(k).fill(0))
+  const b = new Array(k).fill(0)
+  for (const [x, y] of data) {
+    const t = u(x)
+    const p = Array.from({ length: k }, (_, j) => t ** j)
+    for (let i = 0; i < k; i++) {
+      for (let j = 0; j < k; j++) A[i][j] += p[i] * p[j]
+      b[i] += p[i] * y
+    }
+  }
+  for (let i = 1; i < k; i++) A[i][i] += lambda
+  const coeffs = solveLinear(A, b)
+  return {
+    at: (x: number) => coeffs.reduce((acc, c, j) => acc + c * u(x) ** j, 0),
+    coeffs,
+    maxWeight: Math.max(...coeffs.slice(1).map(Math.abs)),
+  }
+}
+
+/** Squared-error cost of any prediction function on any split: J = 1/(2m) · Σ (f(x) − y)². */
+export const costOf = (f: (x: number) => number, data: PlotPoint[]): number =>
+  data.reduce((a, [x, y]) => a + (f(x) - y) ** 2, 0) / (2 * data.length)

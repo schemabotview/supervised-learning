@@ -6,11 +6,11 @@ this repo's.
 
 ## Status
 
-**COURSES 1-4 OF 7 AUTHORED (2026-09-23)** — `foundations`, `regression`, `multiple-features` and
-`classification`, **39 sections · 39 scenes**. All seven courses are declared in `src/content/index.ts` so the arc is
-visible in the app from day one; the other three are empty and fill in as each slice is authored. `npm run build`,
-`tsc --noEmit` and `npm run check` are clean, and **every one of the thirty-nine sections has been reviewed as a
-rendered frame** before being called done.
+**COURSES 1-5 OF 7 AUTHORED (2026-09-23)** — `foundations`, `regression`, `multiple-features`,
+`classification` and `generalization`, **48 sections · 48 scenes**. All seven courses are declared in
+`src/content/index.ts` so the arc is visible in the app from day one; the other two are empty and fill in as each
+slice is authored. `npm run build`, `tsc --noEmit` and `npm run check` are clean, and **every one of the forty-eight
+sections has been reviewed as a rendered frame** before being called done.
 
 **Live at `graphl.in/supervised-learning/`** — repo `schemabotview/supervised-learning` (a free
 name; no quarry collision, unlike `deep-learning`), deployed by `.github/workflows/deploy.yml` on
@@ -65,7 +65,7 @@ ride `kind: 'plot'` rather than a diagram. `kind: 'code'` carries the NumPy/scik
 | 2 | `regression` | Regression and Gradient Descent | 10 | **authored ✓** |
 | 3 | `multiple-features` | Many Features at Once | 9 | **authored ✓** |
 | 4 | `classification` | Classification | 10 | **authored ✓** |
-| 5 | `generalization` | Overfitting, Bias and Variance | 9 | declared |
+| 5 | `generalization` | Overfitting, Bias and Variance | 9 | **authored ✓** |
 | 6 | `ml-in-practice` | Making a Model Better | 10 | declared |
 | 7 | `trees` | Decision Trees and Ensembles | 10 | declared |
 
@@ -125,13 +125,33 @@ to all three checks.
 - **Fit the model, do not pick it.** The hand-chosen `w = 3.4, b = -8.9` put the boundary where the
   data had no ambiguity. Running gradient descent on the real log-loss cost gives `2.9225, -7.6155`
   → the `W`/`B` in `_data.ts`. Every downstream caption then describes a model that could exist.
-- **A label pinned relative to its marker will eventually land on another series.** §09's two panels
-  are the same construction at two thresholds, and the offset that read cleanly at 0.5 dropped the
-  boundary label straight onto the false-alarm marker at 0.2. Pass the position per panel.
+- **A label pinned relative to its marker will eventually land on another series.** `classification`
+  §09's two panels are the same construction at two thresholds, and the offset that read cleanly at
+  0.5 dropped the boundary label straight onto the false-alarm marker at 0.2. Pass it per panel.
+- **A tall scene rides up under the eyebrow.** fitView fills the pane, so a three-panel stack puts
+  its first title straight through `SUPERVISED LEARNING · <COURSE>`. The fix is the scene's own
+  `padding` — 0.12–0.13 clears it, against 0.07–0.09 for a one-panel scene. Only visible on the frame.
+- **One dataset cannot always serve every section, and the tuning knobs fight.** `generalization`
+  needs a small training set (24 rows) for overfitting to be visible at all, a clean U in J_val, and
+  a λ sweep with a real minimum. Widening the split to 48 rows — an obvious fix for a noisy J_val —
+  is a different draw of the noise, and it flattened §08's λ curve into a monotone rise with no
+  minimum to find. Re-check EVERY figure after touching the data, not just the one being fixed.
+- **When a figure and the lesson disagree, change the figure, not the caption.** §04's first cut
+  drew the high-variance learning curve at degree 12, where J_val RISES with m — the exact opposite
+  of "more data is the fix". Degree 7 shows the real closing gap (0.078 → 0.008). The textbook
+  shape has to be one the data actually produces.
+- **Slice a learning curve's subsets across the range, never off the front.** Taking the first m
+  rows of an x-sorted table trains only on small houses and then scores against large ones, so the
+  curve measures extrapolation. That bug produced a J_cv of 32,601 and looked like a solver fault.
 
 ## Authoring notes
 
-- `src/scenes/_curve.ts` holds the sampling helpers (`sample`, `line`, `scatterAroundLine`, `rng`).
+- `src/scenes/_curve.ts` holds the sampling helpers (`sample`, `line`, `scatterAroundLine`, `rng`),
+  the squared-error cost and its contours, and — added for `generalization` — `polyRidge`, a
+  least-squares polynomial fit with an optional ridge penalty. `polyRidge` remaps x onto [-1, 1]
+  before building the normal equations: a raw Vandermonde over [0.4, 4.7] is hopeless by degree 12,
+  and the "overfitted" curve would be a conditioning artefact rather than the real answer it claims
+  to be. The intercept is never penalised.
   Scattered data is generated from a **fixed seed** — never `Math.random` — because a scene must
   render identically on every capture, or the 4K shoot will not match the screenshot it was reviewed
   from.
