@@ -1,0 +1,8 @@
+{
+  "_comment": "Per-repo publishing identity, read by @graphlearning/shell's thumb / gen-descriptions scripts. Env vars (CONCEPT, SITE, APP_PATH, HASHTAGS, PANEL_BG) still override.",
+  "concept": "Supervised Learning",
+  "site": "https://graphl.in",
+  "appPath": "/supervised-learning",
+  "hashtags": "#MachineLearning #SupervisedLearning #LinearRegression #LogisticRegression #GradientDescent #DecisionTrees #XGBoost #DataScience #TechEducation",
+  "panelBg": "radial-gradient(118% 104% at 70% 34%, #7c5cff 0%, #3b2a8f 44%, #0c0818 100%)"
+}

@@ -1,0 +1,18 @@
+/* supervised-learning's design surface — the three tokens @graphlearning/shell leaves to the repo.
+   Imported AFTER the shell's stylesheet in main.tsx, so these win the cascade.
+
+   --brand is an indigo-violet. It is a NEW hue for the catalog: the warm end (spark #e25a1c,
+   databricks #ff3621, dbt #ff694a, aws #f0902f, linux #f2b632) and the cool-blue end (dw #5b8cff,
+   snowflake #29b5e8, python #4b8bbe, sql #34e0d0) are both crowded, and the three ML repos need to
+   read as one family that is neither. The family: supervised #7c5cff · deep-learning · unsupervised.
+
+   Deliberately NOT the engine's `user` purple (#c98bff) — that is a PATTERNS accent and appears
+   inside scenes, so a brand identical to it would make the eyebrow look like a node.
+
+   --brand is COOL, so the slide's `###` counter tone is warm — the inversion dbt/aws/linux use in
+   the other direction. */
+:root {
+  --brand: #7c5cff; /* indigo-violet — eyebrow, links, the catalog card tint */
+  --brand-hover: #9b82ff; /* lighter indigo — the eyebrow's hover state */
+  --accent-2: #ffb454; /* warm counter tone to --brand: the slide's `###` subheading */
+}
