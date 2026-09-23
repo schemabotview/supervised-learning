@@ -60,7 +60,7 @@ Three decisions, taken before a line was authored, run through every course belo
 8. `polynomial-regression` — a curve from a linear model, by squaring the feature
 9. `with-scikit-learn` — `Pipeline`, `StandardScaler`, `SGDRegressor`, and the leakage the pipeline prevents
 
-## 04 · `classification` — Classification (10)
+## 04 · `classification` — Classification (10) ✅ authored
 
 1. `why-not-a-line` — fitting a straight line to 0/1 labels, and the outlier that ruins it
 2. `the-sigmoid` — squashing any real number into (0, 1), and reading the output as probability
