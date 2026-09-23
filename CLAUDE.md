@@ -6,11 +6,11 @@ this repo's.
 
 ## Status
 
-**COURSES 1-2 OF 7 AUTHORED (2026-09-23)** — `foundations` and `regression`, **20 sections · 20
-scenes**. All seven courses are declared in `src/content/index.ts` so the arc is visible in the app
-from day one; the other five are empty and fill in as each slice is authored. `npm run build`, `tsc --noEmit` and
-`npm run check` are clean, and **every one of the twenty sections has been reviewed as a rendered
-frame at 1920×1080** before being called done.
+**COURSES 1-3 OF 7 AUTHORED (2026-09-23)** — `foundations`, `regression` and `multiple-features`,
+**29 sections · 29 scenes**. All seven courses are declared in `src/content/index.ts` so the arc is visible in the app
+from day one; the other four are empty and fill in as each slice is authored. `npm run build`, `tsc --noEmit` and
+`npm run check` are clean, and **every one of the twenty-nine sections has been reviewed as a
+rendered frame at 1920×1080** before being called done.
 
 **Live at `graphl.in/supervised-learning/`** — repo `schemabotview/supervised-learning` (a free
 name; no quarry collision, unlike `deep-learning`), deployed by `.github/workflows/deploy.yml` on
@@ -63,7 +63,7 @@ ride `kind: 'plot'` rather than a diagram. `kind: 'code'` carries the NumPy/scik
 |--:|----|-------|-----:|-------|
 | 1 | `foundations` | What Machine Learning Is | 10 | **authored ✓** |
 | 2 | `regression` | Regression and Gradient Descent | 10 | **authored ✓** |
-| 3 | `multiple-features` | Many Features at Once | 9 | declared |
+| 3 | `multiple-features` | Many Features at Once | 9 | **authored ✓** |
 | 4 | `classification` | Classification | 10 | declared |
 | 5 | `generalization` | Overfitting, Bias and Variance | 9 | declared |
 | 6 | `ml-in-practice` | Making a Model Better | 10 | declared |
@@ -104,6 +104,13 @@ to all three checks.
 - **Re-read the prose after moving a panel.** Stacking §03 and §09 turned every "on the left" and
   "right-hand plot" in their slides and narration into a wrong direction. The frame changed; the
   words did not follow on their own.
+- **Generated data must carry noise.** `multiple-features` §07 computed price as an exact function
+  of frontage × depth, so the "after" plot put every point precisely on the line — a perfect fit no
+  real dataset produces, overstating the very claim the section makes. Noise comes from a fixed
+  table or seed, never `Math.random`, so the frame is identical on every capture.
+- **Restart the dev server after a TS syntax error.** Vite's HMR can end up serving a stale scene
+  registry, and the symptom is a route that renders "no scene or slug" while `tsc` and `build` are
+  both clean. Two capture passes were spent on that before it was recognised.
 - **Plot colours come from the engine ramp**, not from taste: green↔orange is the pair that collapses
   under protanopia, so they are never adjacent slots. Series carry **direct labels**, never a legend.
 
